@@ -1,0 +1,84 @@
+---
+title: "Homework Two"
+output: html_document
+---
+
+# Homework Two: Due Sept. 2 at 5 pm.
+
+First, we will use a modified version of surveys.csv, which has some strange values entered for NAs. Download like so: 
+
+```{r, eval=FALSE}
+download.file(url = "https://raw.githubusercontent.com/BiologicalDataAnalysis2019/2022/main/vignettes/homework_2.Rmd", destfile = "/cloud/project/homeworks/homework2.Rmd")
+```
+
+
+Each question will direct you to perform a task. Each question that expects code as an answer will have a space for you to enter the code. 
+
+You are welcome, and even encouraged, to work with a partner. I do ask, though, that every member submits their own homework. To submit your homework, simply save it. I will see it.
+
+
+## Question One - 1 point.
+
+Load in the `surveys.csv` data file that is located in your homework folder, and save it to a variable called `surveys`. Use the read_csv function in the `tidyverse` package to do this.
+
+```{r}
+surveys<-read.csv("surveys_hm.csv")
+
+```
+
+## Question Two - 1 point
+
+Have a look at the copy of `surveys.csv`. You will notice that there are some unusual NA values. Particularly, the "species_id" column has some odd values. Look at the help page for `read_csv`. Can you find a way to read these unusual values as NAs? Are you able to process both NA and the odd value as NAs? Try it out.
+```{r}
+read.csv("surveys_hm.csv",na="Not Recorded")
+#AMW: You probably want to save this as a variable, no?
+```
+
+## Question Three - 1 point
+
+Remove the NA values from the `hindfoot_length` column using a pipe and a filter.
+```{r}
+surveys%>% 
+filter(!is.na(hindfoot_length))
+
+```
+
+## Question Four - 2 points
+
+Verify that the NA values were removed. Don't do this by looking at the column - use code.
+```{r}
+surveys_hm %>% 
+filter(!is.na(hindfoot_length)) %>% 
+summarize(mean_hindfoot=mean(hindfoot_length))
+
+```
+
+## Question Five - 1 point
+
+Explain the logic of your answer to Question Four. How did you accomplish this? 
+#We know this code validates that NA values are removed. If they were not removed, then the mean could not be calculated.
+
+## Question Six - 1 point
+
+Imagine you are testing the hypothesis that mammal body sizes will be larger under climate change to decrease surface to body size ratio. First, what columns in the dataframe will you use to address this question? 
+#We need to list the years the data has been collected to determnie if change has occured over time. We also want to include the weight as that will give us some insight into the surface area of the organisms. We can take the means of the weight in order to compare the weights of organisms inbeween the years. 
+
+## Question Seven - 2 points
+
+Let's try some analysis: Use a `filter`, a `group_by`, and a `summarize` to decide if you think mammal body sizes are decreasing under climate change.
+
+```{r eval=FALSE}
+surveys%>% 
+filter(!is.na(weight),!is.na(hindfoot_length),!is.na(year)) %>%
+group_by(year) %>% 
+filter(year>=1977) %>% 
+filter(year<=2002) %>% 
+summarize(mean_weight=mean(weight)) %>% 
+select(year,mean_weight)
+
+```
+
+## Question Eight - 1 points
+
+Based on the outputs of question 7, does it look like mammal body sizes are decreasing over time?
+# When looking at the means of weight from years 1977 to 2002, we do see that the years drop from 60-50 to 30-20.

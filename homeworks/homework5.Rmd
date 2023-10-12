@@ -1,0 +1,63 @@
+---
+title: 'Homework Five: Functions'
+author: "April Wright"
+date: "2022-09-23"
+output: html_document
+---
+## Due date: Sept 30, 5 PM.
+
+This homework concerns functions.
+
+1. Make a function that reads in data and does some sort of manipulation of it. Undergrads, use the surveys dataset. Graduates, use your own data. Any manipulation is fine: selection, filtering, value removal. 
+
+```{r}
+
+  hf_plus_weight<-function(data,column8,column9){
+        plus<-na.omit(data) %>% 
+              mutate(add={{column8}}+{{column9}}) %>% 
+              select({{column8}},{{column9}},add)
+        return(plus)
+            }
+     hf_plus_weight(surveys_hm_5,hindfoot_length,weight)
+```
+
+2. Add a test to this function. How will you know if it worked, and alert a user if it did not?
+
+```{r}
+ hf_plus_weight<-function(data,column8,column9){
+            plus<-na.omit(data) %>% 
+              mutate(add = {{column8}} + {{column9}}) %>% 
+              select({{column8}},{{column9}},add) %>% 
+              mutate(add = as.numeric(add))
+        return(plus)
+ }
+
+hf_plus_weight(surveys_hm_5,hindfoot_length,weight)
+  
+```
+
+3. Make a function that makes a plot. This can be any type of plot that we covered. Violin, box, scatter. Include the ability to save the plot to a file in the function.
+
+```{r}
+hf_vs_weight<-function(data,column8,column9){
+     p<-na.omit(data) %>%  
+       ggplot(data,mapping=aes(x={{column8}},y={{column9}}))+geom_point()
+     ggsave("hfvsweight.pdf")
+     return(p)
+     
+ }
+hf_vs_weight(surveys_hm_5,hindfoot_length,weight)
+```
+
+4. For saving to a file, users of your function may want the ability to choose their file name. Make the filename an argument so that users can do so.
+
+```{r}
+hf_vs_weight<-function(data,column8,column9,filename){
+     plot<-na.omit(data) %>% 
+       ggplot(data,mapping=aes(x={{column8}},y={{column9}}))+geom_point() 
+     ggsave(filename)
+     return(plot)
+ }
+hf_vs_weight(surveys_hm_5,hindfoot_length,weight,"testfile.pdf")
+
+```

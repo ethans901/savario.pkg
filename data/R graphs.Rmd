@@ -1,0 +1,70 @@
+---
+title: "Tables"
+output: html_document
+date: "2023-08-31"
+---
+
+```{r}
+minitable<-surveys_class %>% 
+na.omit() %>% 
+group_by(plot_type) %>% 
+filter(species_id=="NL") %>% 
+count()
+
+minitable
+```
+
+Renaming
+```{r}
+table_1 <- minitable %>% 
+  rename_at('plot_type', ~'Experimental Treatment')
+
+table_2 <- table_1 %>% 
+  rename_at('n', ~'Number Sampled')
+
+knitr::kable(table)
+
+table_2
+```
+```{r}
+data_for_table<-surveys_class %>% 
+na.omit() %>% 
+select(species_id,weight,year) %>% 
+group_by(year) %>% 
+summarize(mean_weight=mean(weight)) %>% 
+arrange()
+data_for_table
+```
+
+```{r}
+data_for_table<-surveys_class %>% 
+na.omit() %>% 
+select(species_id,weight,year) %>% 
+group_by(year) %>% 
+summarize(mean_weight=mean(weight)) %>% 
+arrange()
+knitr::kable(data_for_table)
+
+```
+```
+ mathemagical<-function(data,columns, column){
+     clean<-data %>% 
+         na.omit(data) %>% 
+         mutate(gram_conv = {{column}}/1000) %>% 
+         select(all_of({{columns}}))
+     return(clean)
+}
+mathemagical(surveys,cols,weight)
+```
+
+
+```
+mathemagical<-function(data,column){
+    clean<-data %>% 
+        na.omit(data) %>% 
+        mutate(gram_conv=weight/1000) %>% 
+        select(weight,gram_conv)
+    return(clean)
+}
+mathemagical(surveys,weight)
+```

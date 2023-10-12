@@ -121,7 +121,6 @@ ANOVA is used to run a single catagorical preidcotr variable while lm is used fo
 
 ```{r}
 proj2_plot2+geom_smooth(method = "lm",color="deeppink",linewidth=0.75)+theme_bw()+labs(title = "Sex of Specimen and Relation to Weight",x = "Sex",y = "Weight")+facet_wrap(~species_id,ncol=5)
-#can't get the line to show up
 ```
 
 4) Choose any model we've looked at so far, but use two predictor variables. Perform an LM, plot the results, and state if this changes your interpretation of the relationship between variables (10 pts)
@@ -136,7 +135,7 @@ ggplot(surveys_proj_2_use, aes(x=weight,y=hindfoot_length, color =sex))+geom_poi
 ```
 
 ```
-The adjusted R value is significantly higher on this graph versus the first graph we made. There are also higher signifigance codes. When looking at the 
+The adjusted R value is significantly higher on this graph versus the first graph we made, meaning a linear fit is much better. There are also higher signifigance codes, meaning they are higher p values. When looking at the two variables overall it appears that while sex and weight alone may be poor predictors of hindfoot length. When sex and weight and both predictors of hindfoot length however, there appears to be a greater fit.
 ```
 
 ## Part Three

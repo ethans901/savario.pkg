@@ -144,13 +144,13 @@ The adjusted R value is significantly higher on this graph versus the first grap
 1) Add and commit this document (5 pts)
 
 ```
-Open up Commit box command and add a comment. Hit commit
+Open up the Commit box command (located under the History) and add a comment in the commit message box. Hit commit button at the top.
 ```
 
 2) Push your changes to github (10 pts)
 
 ```
-#Commands here
+Hit the green arrow icon with the word push next to it.
 ```
 
 

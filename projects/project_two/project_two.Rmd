@@ -1,0 +1,161 @@
+---
+title: "Project Two"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Due Oct. 13 at 11:59 PM. 
+
+For this first part of the exam, you can either use `surveys_complete.csv` or your own data. If you are using your own data, you must have data in which you think you have a numerical predictor variable and a numerical response variable. If you are using `surveys_complete`, you can use weight and hindfoot_length for this.
+
+Save this file in your `projects` directory. You can either save it in a project two subdirectory, or just put it in projects. Either way is fine.
+
+
+1) Load in your data. Which variable will you be using as a predictor, and which as a response? (5 pts)
+
+```{r}
+surveys_proj_2<-read_csv("/cloud/project/data/surveys.csv", na=c("NA","") )
+surveys_proj_2_use<-surveys_proj_2%>% na.omit()
+surveys_proj_2_use
+```
+# The predictor will be weight and the response will be hindfoot length.
+
+2) Plot the two against each other with a scatter plot. Do the data appear to be related linearly? (5 pts)
+
+```{r}
+proj2_plot<-ggplot(surveys_proj_2_use,aes(x=weight,y=hindfoot_length))+geom_point()+labs(title = "Weight vs Hindfootlength",x = "Hindfoot Length",y = "Weight")
+proj2_plot
+```
+
+```
+# Weight and Hindfoot legth do not appear to be related linearly. 
+```
+
+
+3) Fit the linear model. View the summary. (5 pts)
+
+
+```{r}
+lin_fit_p2<-lm(hindfoot_length~weight,surveys_proj_2_use)
+summary(lin_fit_p2)
+```
+
+4) Does the summary make sense when you compare it to the plot you made? Does our model have good predictive power? Evaluate the residual standard error, intercept, and R-Squared in particular. Would you say your predictor predicts the response?  (10 pts)
+
+
+```
+I think the summary makes sense for the data given. The model does report strong predictive power.(a significance code of 0, check this). The residual standard error is 6.963, meaning that points are about 7 units away from the line, which is quite far. Generally we want this number to be 0. The intercept show us that when the weight is 0, the estimated hindfoot length is 21.6 ml, if we increase the weight by 1 gram, the hindfoot length will increase 0.183 ml. The R-Squared is 0.47, this indicates that a linear fit may not be the best fit, as an R-Squared on 1 indicates a very string linear fit. I would say that the preidctor does not predict the response. 
+```
+
+
+5) Plot the model on the graph. Increase the size of the text so it is comfortably readable at 5 feet. Make sure axis labels are readable and not overlapping with one another. (5 pts)
+
+```{r}
+proj2_plot+geom_smooth(method = "lm",color="deeppink",linewidth=0.75)+theme_bw()+labs(title = "Weight vs Hindfootlength",x = "Hindfoot Length",y = "Weight")
+```
+
+
+6) Check the normality of the residuals. Do they look OK? Are we violating assumptions? (5 pts)
+
+```{r}
+aug_proj2<-(broom::augment(lin_fit_p2))
+qqnorm(aug_proj2$.resid,col="pink")
+qqline(aug_proj2$.resid,col="black")
+```
+
+Why is normality of residuals important? 
+
+```{r}
+Normalcy of the residuals helps the analysist determine if the line graph is the best fit for the data. If there are influx of point of very high or very low frequency then there may be a trend present in the data that is not linear. In this graph the point deviate quite a bit from the line, assumptions may have violated
+```
+
+7) If you are using `surveys_complete`: Is there interspecific variation in the linear model? Hint: look at our prior work with facet plots. (15 pts) 
+
+If you are *not* using  `surveys_complete`: Do you think there are groupings within your data that may have a separate linear model? Try grouping the data by that variable and redoing the lm. If this would not make sense for your data, you may also attempt to do multiple predictor variables. (15 pts)
+
+```{r}
+#There is interspecific variation in this graph which could explain why the graph does not fit a linear model very well. If we were to make seperate graph of each species we may find that relationship is more linear. 
+#Let's try to take a look at the PF species only.
+suvryes_proj_2_Q7<-surveys_proj_2_use %>% filter(species_id=="DM")
+proj2_plotQ7<-ggplot(suvryes_proj_2_Q7,aes(x=weight,y=hindfoot_length))+geom_point()
+lin_fit_p2Q7<-lm(hindfoot_length~weight,suvryes_proj_2_Q7)
+summary(lin_fit_p2Q7)
+proj2_plotQ7+geom_smooth(method="lm",color="deeppink",linewidth=0.75)+theme_bw()+labs(title = "Weight vs Hindfootlength of DM species ID",x = "Hindfoot Length",y = "Weight")
+#Lets check a few together 
+ggplot(data=surveys_proj_2_use,mapping=aes(x=weight,y=hindfoot_length))+geom_point()+facet_wrap(~species_id,ncol=5)+geom_smooth(method="lm",color="deeppink",linewidth=0.75)+theme_bw()+labs(title = "Weight vs Hindfootlength of Different Species",x = "Hindfoot Length",y = "Weight")
+#When looking at the facet wrap of the weight vs hindfoot length graph for each species, we do see the linear models fits much better. Looking at the example above the R-squared value is still very low but better than the the R-Squared value than the graph where all species were counted as one set of data.
+```
+## Part Two
+
+In this portion, you are free to use your own data if you have a categorical predictor variable and a response variable. Otherwise, you may use the columns sex and weight in `surveys_complete`
+
+1) First, plot the data grouped by sex (5 pts)
+
+```{r}
+proj2_plot2<-ggplot(surveys_proj_2_use,aes(x=sex,y=weight,color=sex))+geom_jitter()
+proj2_plot2
+```
+
+2) Try an ANOVA of this data (5 pt)
+
+```{r}
+lin_fit_p22<-lm(weight~sex,surveys_proj_2_use)
+aov(lin_fit_p22)->anova_lin_fit_p22
+summary(anova_lin_fit_p22)
+```
+
+3) How about a linear model? What information does this give you that an ANOVA can't? (5 pts)
+
+
+```{r}
+summary(lin_fit_p22)
+```
+
+```
+ANOVA is used to run a single catagorical preidcotr variable while lm is used for numeric predictor variables. lm can show us how the sexes differ when it comes to weight, for examples males are about .6 mg heavier in relation to females. ANOVA cannot tell us this information.
+```
+
+3) Plot the lm with the data, with points colored by sex. (10 pts)
+
+
+```{r}
+proj2_plot2+geom_smooth(method = "lm",color="deeppink",linewidth=0.75)+theme_bw()+labs(title = "Sex of Specimen and Relation to Weight",x = "Sex",y = "Weight")+facet_wrap(~species_id,ncol=5)
+#can't get the line to show up
+```
+
+4) Choose any model we've looked at so far, but use two predictor variables. Perform an LM, plot the results, and state if this changes your interpretation of the relationship between variables (10 pts)
+
+```{r}
+lin_fit_p23<-lm(hindfoot_length~weight*sex,surveys_proj_2_use)
+summary(lin_fit_p23)
+```
+
+```{r}
+ggplot(surveys_proj_2_use, aes(x=weight,y=hindfoot_length, color =sex))+geom_point()+geom_smooth(method = "lm")+labs(title = "Effects of Weight and Sex on Hindfoot Length",x = "Hindfoot Length",y = "Weight")
+```
+
+```
+The adjusted R value is significantly higher on this graph versus the first graph we made. There are also higher signifigance codes. When looking at the 
+```
+
+## Part Three
+
+
+1) Add and commit this document (5 pts)
+
+```
+#Commands here
+```
+
+2) Push your changes to github (10 pts)
+
+```
+#Commands here
+```
+
+
+
+# MS students
+
+My expectation is that you'll do this with your own data. If any part of this doesn't make sense with your data, please get in touch ASAP so we can work it out.

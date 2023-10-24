@@ -2,15 +2,15 @@ color: This column is used to list what color the caught crab is.
 
 sex: This column is used to list the sex of the caught crab.
 
-frontal_lobe: The fronal of a crab refers to the portion of the body inbetween the antennae. This column is used to list the measurments of the frontal lobe of the caught crabs (in centimeters).
+frontal_lobe: The fronal of a crab refers to the portion of the body inbetween the antennae. This column is used to list the measurments of the frontal lobe of the caught crabs (in millimeters).
 
-rear_width: The rear of the crab is most likely reffering to the abdominal segment that is visable from an anterior view of the crab inbetween the two back legs. This column is used to list the measurements of the rear of the caught crabs (in centimeters).
+rear_width: The rear of the crab is most likely reffering to the abdominal segment that is visable from an anterior view of the crab inbetween the two back legs. This column is used to list the measurements of the rear of the caught crabs (in millimeters).
 
-carapace_length: The carapace refers to the shell that covers the body of the crab. This coumn is used to list measurements of length (from eyes to rear) of the carapces of caught crabs (in centimeters).
+carapace_length: The carapace refers to the shell that covers the body of the crab. This coumn is used to list measurements of length (from eyes to rear) of the carapces of caught crabs (in millimeters).
 
-carapace_width: The carapace refers to the shell that covers the body of the crab. This column is used to list measurements of width (side to side) of the carapace of caught crabs (in centimeters).
+carapace_width: The carapace refers to the shell that covers the body of the crab. This column is used to list measurements of width (side to side) of the carapace of caught crabs (in millimeters).
 
-body_depth: The body depth refers to how deep the body is. When looking into an empty carapace, how far back the cavity goes. This column is used to list measurements of depth of caught crabs (in centimeters).
+body_depth: The body depth refers to how deep the body is. When looking into an empty carapace, how far back the cavity goes. This column is used to list measurements of depth of caught crabs (in millimeters).
 
 Latitude: This column is used to list the lattitude at which crabs were caught.
  
